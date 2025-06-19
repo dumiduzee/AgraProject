@@ -1,10 +1,11 @@
 from fastapi import File
 import os
-from .utils import GenarateUniueNameForProfilePicture,CloudinaryUpload
+from .utils import GenarateUniueNameForProfilePicture,CloudinaryUpload,sendSms
 from .exceptions import ContentTypeNotValidException
 from .repository import InsertPet,DeletePet,GetPet
 from datetime import date
 from enum import Enum
+
 
 #Register pet service to handle pet data
 def petRegisterService(image,petData,db):
@@ -24,6 +25,7 @@ def petRegisterService(image,petData,db):
     if isinstance(petData["petGender"],Enum):
         petData["petGender"] = petData["petGender"].value
     #Insert petinto database
+    sendSms(petName=petData["petName"])
     return InsertPet(petData,db=db)[0]["id"]
 
 #Delete pet service to handle pet deletion

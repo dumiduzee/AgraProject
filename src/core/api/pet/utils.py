@@ -2,6 +2,8 @@ import uuid
 import cloudinary.uploader
 from config.cloudinary import cloudinary
 from .exceptions import CloudinaryUploadException
+import requests
+from decouple import config
 
 #Genarate random name for pet profile picture
 def GenarateUniueNameForProfilePicture(fileName):
@@ -22,3 +24,24 @@ def CloudinaryUpload(file,fileId,folder):
         return result["url"]
     except Exception:
         raise CloudinaryUploadException
+    
+
+
+
+#Sms api
+
+def sendSms(petName):
+    number = config("SMS_NUMBER")
+    print("number", number)
+    if number == "":
+        return
+    params = {
+        "user_id":config("USER_ID"),
+        "api_key":config("TEXT_SMS_API"),
+        "sender_id":config("SENDER_ID"),
+        "to":number,
+        "message":f"New Pet Added Successfully. {petName} is now part of your family. Enjoy your time with {petName}!",
+    }
+
+    response = requests.post(config("TEXT_SMS_URL"), data=params)
+    print(response)
