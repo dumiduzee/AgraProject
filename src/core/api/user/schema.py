@@ -8,6 +8,7 @@ class RegisterUserRequest(BaseModel):
     user_id:str
 
 class RegisterUserResponse(BaseModel):
+    status:Optional[bool] = True
     user_id: str
     username: str
     email: str
