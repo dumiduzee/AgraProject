@@ -16,6 +16,7 @@ class RegisterPetSchema(BaseModel):
     petBread:str
 
 class RegisterPetResponse(BaseModel):
+    status:Optional[bool] = True
     message:str
     pet_id:str
     
