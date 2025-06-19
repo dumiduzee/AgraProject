@@ -1,5 +1,5 @@
 from pydantic import BaseModel,Field
-from typing import Annotated,Optional
+from typing import Annotated,Optional,List
 from datetime import date
 from enum import Enum
 
@@ -14,10 +14,22 @@ class RegisterPetSchema(BaseModel):
     petGender:PetGender
     petColor:str
     petBread:str
+    owner_id:str
 
 class RegisterPetResponse(BaseModel):
     status:Optional[bool] = True
     message:str
     pet_id:str
+
+class DeletePetResponse(BaseModel):
+    status:Optional[bool] = True
+    message:str
+    pet_id:str
+
+class GetPetResponse(BaseModel):
+    status:Optional[bool] = True
+    message:str
+    pets: list = Field(default_factory=list)
+   
     
 
