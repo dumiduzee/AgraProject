@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.requests import Request
+from decouple import config
 from core.api.appoinment.route import router as AppoinmentRouter
 from core.api.pet.route import router as PetRouter
 from core.api.pills.route import router as PillsRouter
@@ -24,7 +25,9 @@ app = FastAPI(
     - And much more!
 
     Our goal is to make pet care seamless and stress-free for pet owners.
-    """
+    """,
+    docs_url=config("DOCKS"),
+    redoc_url=config("DOCKS")
 )
 
 
