@@ -1,9 +1,9 @@
 from fastapi import APIRouter,Depends
 from fastapi import status
-from .schema import RegisterUserRequest, RegisterUserResponse
+from .schema import RegisterUserRequest, RegisterUserResponse,UpdateUserSchema,UpdateUserResponseSchema
 from database.Superbase import get_db,Client
 from typing import Annotated
-from .service import RegisterUserService
+from .service import RegisterUserService,UpdateUserService
 
 router = APIRouter(tags=["Users"])
 
@@ -34,3 +34,11 @@ async def register_user(userData:RegisterUserRequest,db:Annotated[Client,Depends
         username=response[0]["username"],
         email=response[0]["email"]
     )
+
+
+@router.put("/update/{user_id}",status_code=status.HTTP_200_OK,response_model=UpdateUserResponseSchema)
+def UpdateProfile(user_id:str,userDetails:UpdateUserSchema,db:Annotated[Client,Depends(get_db)]):
+    """Update username with helping of user_id"""
+    response = UpdateUserService(user_id,userDetails.model_dump(),db)
+    if response:
+        return UpdateUserResponseSchema(message="User updated succuss")

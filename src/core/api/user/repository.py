@@ -1,4 +1,4 @@
-from .exceptions import UserRegistrationException
+from .exceptions import UserRegistrationException,UpdateUserExceptions
 
 
 def RegisterUserRepository(user,db):
@@ -18,3 +18,17 @@ def RegisterUserRepository(user,db):
         print(e)
         raise UserRegistrationException("User registration failed due to an unexpected error.")
     
+
+
+def UpdateUserRepository(user_id,user_data,db):
+    try:
+        print(user_data)
+        
+        response = db.table("users").update(user_data).eq("user_id",user_id).execute()
+        if response.data:
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(e)
+        raise UpdateUserExceptions()

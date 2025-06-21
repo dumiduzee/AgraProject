@@ -12,3 +12,10 @@ class RegisterUserResponse(BaseModel):
     user_id: str
     username: str
     email: str
+
+class UpdateUserSchema(BaseModel):
+    username: str = Field(...,min_length=3,description="Must need valid registerd firebase userid")
+
+class UpdateUserResponseSchema(BaseModel):
+    status:Optional[bool] = True
+    message:str
